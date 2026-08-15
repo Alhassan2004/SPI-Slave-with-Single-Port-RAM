@@ -157,8 +157,3 @@ The RTL was linted using the default methodology and goals.
 * **XDC** — Timing and FPGA constraints (Basys 3, `xc7a35ticpg236-1L`)
 
 ---
-* Anas Mohamed Fawzy
-
-### Prepared For
-
-Eng. Kareem Waseem, Eng. Ahmed Yahya, Eng. Magdy Ahmed, Eng. Mai Sherif, Eng. Mustafa Tamer, Eng. Ziad Alaa
