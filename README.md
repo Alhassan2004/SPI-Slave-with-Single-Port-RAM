@@ -24,9 +24,6 @@ SPI_Slave_RAM/
 ├── Simulation/
 │   └── sim.do
 │
-├── Constraints/
-│   └── constraints.xdc
-│
 └── README.md
 ```
 
@@ -58,53 +55,18 @@ QuestaSim DO file used to compile, simulate, add waveform groups, and run the si
 
 Each transaction is a 10-bit word shifted MSB-first on `MOSI`. The top 2 bits select the operation:
 
-| `din[9:8]` | Operation      | Description                                     |
-| ---------- | -------------- | ------------------------------------------------ |
-| `00`       | Set write addr | Loads `din[7:0]` into `write_addr`               |
-| `01`       | Write data     | Writes `din[7:0]` to `mem[write_addr]`           |
-| `10`       | Set read addr  | Loads `din[7:0]` into `read_addr`                |
-| `11`       | Read data      | Latches `mem[read_addr]` and drives it on MISO   |
+| `din[9:8]` | Operation     
+| ---------- | -------------- 
+| `00`       | Set write address 
+| `01`       | Write data     
+| `10`       | Set read address  
+| `11`       | Read data      
 
 ---
 
 ## Verification
 
 The design was verified using a **self-checking Verilog testbench** in QuestaSim.
-
-The testbench verifies:
-
-### 1. Write Address
-
-Write address `0xFF` is shifted in and latched.
-
-```text
-rx_data = 0xFF  ->  PASS
-```
-
-### 2. Write Data
-
-Data `0x7D` is shifted in and written to `mem[0xFF]`.
-
-```text
-rx_data    = 0x17D  ->  PASS
-RAM[0xFF]  = 0x7D   ->  PASS
-```
-
-### 3. Read Address
-
-Read address `0xFF` is shifted in and latched.
-
-```text
-rx_data = 0x2FF  ->  PASS
-```
-
-### 4. Read Data
-
-Data is read back from `mem[0xFF]` and shifted out over MISO.
-
-```text
-MISO data = 0x7D  ->  PASS
-```
 
 The testbench terminates with:
 
@@ -179,30 +141,6 @@ One-hot encoding produced the best slack and was selected as the final implement
 
 ---
 
-## Final Post-Implementation Results (One-Hot Encoding)
-
-### Utilization
-
-| Module               | Slice LUTs | Slice Registers | Slices |
-| -------------------- | ---------: | ---------------: | -----: |
-| RAM                  |        812 |              2099 |    795 |
-| SPI                  |         20 |                43 |     16 |
-| **Wrapper (Total)**  |    **832** |          **2142** |**806** |
-
-### Timing
-
-| Metric             |     Value |
-| ------------------- | --------: |
-| Worst Setup Slack   |  1.874 ns |
-| Worst Hold Slack    |  0.116 ns |
-| Failing Endpoints   |         0 |
-
-All user-specified timing constraints are met.
-
-> **Note:** Vivado reports that the RAM's `mem_reg` cannot be inferred as Block RAM/DRAM and is implemented in distributed slice registers instead. It also flags `mem_reg` as having both set and reset with the same priority, a potential simulation/synthesis mismatch worth addressing in a future revision.
-
----
-
 ## Linting
 
 The RTL was linted using the default methodology and goals.
@@ -219,11 +157,6 @@ The RTL was linted using the default methodology and goals.
 * **XDC** — Timing and FPGA constraints (Basys 3, `xc7a35ticpg236-1L`)
 
 ---
-
-## Authors
-
-* Alhassan Mohammed Soliman
-* Abdelrahman Zakaria Talaat
 * Anas Mohamed Fawzy
 
 ### Prepared For
