@@ -22,7 +22,7 @@ SPI_Slave_RAM/
 │   └── tb.v
 │
 ├── Simulation/
-│   └── sim.do
+│   └── do.do
 │
 └── README.md
 ```
